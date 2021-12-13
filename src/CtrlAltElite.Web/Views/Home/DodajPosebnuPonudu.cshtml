@@ -1,0 +1,56 @@
+﻿@model CtrlAltElite.Web.Models.Ponuda.PonudaIndexModel
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@inject CtrlAltElite.BL.IRepository repository
+@inject CtrlAltElite.BL.IMapper mapper
+
+@{
+    var userName = UserManager.GetUserId(User);
+    var user = repository.GetKorisnik(userName);
+
+    if (user.IdRole == (int)CtrlAltElite.BL.Models.RoleModel.RegistriraniKorisnik)
+    {
+        <button type="button" class="btn btn-info mb-3" data-toggle="collapse" data-target="#dodajPosebnuPonudu">+ Dodaj posebnu ponudu</button>
+        <div id="dodajPosebnuPonudu" class="collapse">
+            <form asp-controller="Narudzbe" asp-action="AddPosebnaPonuda">
+                <div class="modal-header">
+                    <h4 class="modal-title">Dodavanje posebne ponude</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="form-group">
+                            <label asp-for="@Model.PosebnaPonudaInput.Opis"></label>
+                            <textarea asp-for="@Model.PosebnaPonudaInput.Opis" class="form-control"></textarea>
+                            @Html.ValidationMessageFor(pp => pp.PosebnaPonudaInput.Opis, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label asp-for="@Model.PosebnaPonudaInput.ImePrimatelja"></label>
+                                <input asp-for="@Model.PosebnaPonudaInput.ImePrimatelja" class="form-control">
+                                @Html.ValidationMessageFor(pp => pp.PosebnaPonudaInput.ImePrimatelja, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-row">
+                                <label asp-for="@Model.PosebnaPonudaInput.PrezimePrimatelja"></label>
+                                <input asp-for="@Model.PosebnaPonudaInput.PrezimePrimatelja" class="form-control">
+                                @Html.ValidationMessageFor(pp => pp.PosebnaPonudaInput.PrezimePrimatelja, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-row">
+                                <label asp-for="@Model.PosebnaPonudaInput.AdresaPrimatelja"></label>
+                                <input asp-for="@Model.PosebnaPonudaInput.AdresaPrimatelja" class="form-control">
+                                @Html.ValidationMessageFor(pp => pp.PosebnaPonudaInput.AdresaPrimatelja, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input value="Dodaj" type="submit" class="btn btn-success" data-dismiss="modal" name="Dodaj" />
+                    <button type="reset" class="btn btn-danger" data-dismiss="modal">Odbaci</button>
+                </div>
+            </form>
+        </div>
+    }
+}

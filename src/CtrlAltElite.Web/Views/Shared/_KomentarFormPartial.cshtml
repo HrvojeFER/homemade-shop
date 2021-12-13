@@ -1,0 +1,22 @@
+﻿@model CtrlAltElite.Web.Models.PricaIM
+
+<form id="form_@Model.IdRoditelja" asp-controller="Price" asp-action="DodajKomentar" method="post">
+    <div class="form-group row">
+        <label class="col-md-12 col-form-label">Komentirajte</label>
+        <div class="col-md-12">
+            <textarea asp-for="Sadrzaj" placeholder="Ovdje unesite komentar" cols="40"
+                      rows="5" class="form-control"></textarea>
+            @Html.ValidationMessageFor(m => m.Sadrzaj, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <label asp-for="URL" class="col-md-12 col-form-label"></label>
+            <div class="input-group col-xs-12">
+                <div class="col-md-12">
+                    <textarea asp-for="URL"cols="80" rows="1" class="form-control"></textarea>
+                    @Html.ValidationMessageFor(m => m.URL, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="idPrice" id="idPrice" value="@Model.IdRoditelja">
+    </div>
+</form>

@@ -1,0 +1,107 @@
+﻿@model CtrlAltElite.Web.Models.Ponuda.PonudaIndexModel
+@using CtrlAltElite.BL.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject CtrlAltElite.BL.IRepository repository
+@{
+    ViewData["Title"] = "Ponuda";
+    var userName = UserManager.GetUserId(User);
+    var user = repository.GetKorisnik(userName);
+
+    if ((user != null) && (user.IdRole == (int)RoleModel.RegistriraniKorisnik))
+    {
+        <partial name="DodajPosebnuPonudu" />
+    }
+}
+
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var predmet in @Model.PredmetiNaPonudi)
+        {
+            <div class="col-md-3 my-5 mx-3 align-content-between" style="border: 2px solid black; border-radius: 10px">
+                <img class="card-img-top" src="@predmet.SlikaUrl" onerror="this.onerror = null; this.src='../images/Default.png'">
+                <div class="card-body mt-auto" style="padding: 0 !important">
+                    <h3 class="card-title">@predmet.ImePredmetaNaPonudi</h3>
+                    <p class="card-text">@predmet.OpisPredmeta</p>
+                    <div class="d-flex justify-content-between">
+                        <p>Bazna cijena</p>
+                        <p>@predmet.BaznaCijenaPredmeta HRK</p>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <button data-target="#Ponuda_@predmet.PonudaId" data-toggle="modal" class="btn btn-primary">Pogledaj ponudu</button>
+                        @*USER != NULL because null ako anoniman*@
+                        @if ((user != null) && (user.IdRole == (int)RoleModel.Admin))
+                        {
+                            <button type="button" class="btn btn-danger" onclick="location.href = 
+                                    '@Url.Action("UkloniPonudu", "Home", new {id = predmet.PonudaId})'">Ukloni</button>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="Ponuda_@predmet.PonudaId">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Ponuda</h4>
+                        </div>
+
+                        <form asp-controller="Home" asp-action="Placanje">
+                            <input name="PredmetId" value="@predmet.PredmetId" type="hidden" />
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="jumbotron">
+                                            <div class="container-fluid">
+                                                <img style='height: 100%; width: 100%; object-fit: contain' src="@predmet.SlikaUrl" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="jumbotron" data-sve="@predmet.PredmetId">
+                                            <div class="container-fluid" data-stilovi="@Html.Encode(Json.Serialize(predmet))">
+                                                <h4 class="row">@predmet.ImePredmetaNaPonudi</h4>
+                                                <h5 class="row">@predmet.OpisPredmeta</h5>
+                                                <div class="row mt-4" data-ms="@(predmet.PredmetId)">
+                                                    <select name="IdSalveta" data-moguce-salvete="@(predmet.PredmetId)" class="custom-select" 
+                                                        asp-items="predmet.MoguciStiloviSalveta.Select(i=>
+                                                            new SelectListItem(i.NazivStil, i.IdStil.ToString()))">
+                                                        <option selected="selected" value="-1" disabled>Odaberi stil salvete!</option>
+                                                    </select>
+                                                </div>
+                                                <b data-ms-opis="@(predmet.PredmetId)" class="row mt-1"></b>
+                                                <hr />
+                                                <div class="row mt-4" data-mu="@(predmet.PredmetId)">
+                                                    <select name="IdStil" data-moguce-ukrasavanje="@(predmet.PredmetId)" class="custom-select" 
+                                                        asp-items="predmet.MoguciStiloviUkrasavanja.Select(i=>
+                                                            new SelectListItem(i.NazivStil, i.IdStil.ToString()))">
+                                                        <option selected="selected" value="-1" disabled>Odaberi stil ukrašavanja!</option>
+                                                    </select>
+                                                </div>
+                                                <b class="row mt-2" data-mu-opis="@(predmet.PredmetId)"></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <b>Konačna cijena</b>
+                                    <h4 data-cijena="@predmet.PredmetId"></h4>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer justify-content-between">
+                                <button type="reset" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button data-submit-kupi="@predmet.PredmetId" disabled type="submit" class="btn btn-primary">Kupi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<script src="~/js/ponudaBundle.js" asp-append-version="true"></script>

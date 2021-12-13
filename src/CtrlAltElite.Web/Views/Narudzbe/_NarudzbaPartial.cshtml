@@ -1,0 +1,77 @@
+﻿@model CtrlAltElite.BL.Models.NarudzbaVM 
+
+<div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="ml-2">
+                @{
+                    if (Model.IsSpecial)
+                    {
+                        <div class="h5 m-0">Posebna ponuda</div>
+                    }
+                    else
+                    {
+                        <div class="h5 m-0">Ponuda</div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-body">
+    <div class="text-muted h7 mb-2">
+        <i class="fa fa-clock-o"></i>Datum narudžbe: @Model.Datum.ToString()
+    </div>
+    <ul class="list-group list-group-flush mb-1">
+        <li class="list-group-item">
+            <p class="card-text">
+                Opis:
+            </p>
+            @{
+                if (Model.IsSpecial)
+                {
+                    <p class="card-text" style="word-wrap: break-word">
+                        @Model.Opis
+                    </p>
+                }
+                else
+                {
+                    <div>
+                        @if (Model.URLSlike != null)
+                        {
+                            <img src="@Model.URLSlike" class="img float-left" width="300" height="300"
+                                 onerror="this.onerror = null; this.src='../images/Default.png'" />
+                        }
+                        <p style="white-space:pre-line; padding-left: 200px" class="float-left">
+                            @Model.Opis
+                        </p>
+                    </div>
+                }
+            }
+        </li>
+        <li class="list-group-item">
+            <p class="card-text">
+                Primatelj: @Model.ImePrimatelja @Model.PrezimePrimatelja
+            </p>
+            <p class="card-text">
+                Adresa primatelja: @Model.AdresaPrimatelja
+            </p>
+        </li>
+        <li class="list-group-item">
+            @{
+                if (Model.KonacnaCijena != default(decimal))
+                {
+                    <p class="card-text">
+                        Cijena: @Model.KonacnaCijena HRK
+                    </p>
+                }
+                else
+                {
+                    <p class="card-text">
+                        Nije određena konačna cijena.
+                    </p>
+                }
+            }
+        </li>
+    </ul>
+</div>

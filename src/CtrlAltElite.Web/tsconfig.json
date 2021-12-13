@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "pretty": true,
+    "module": "es6",
+    "moduleResolution": "node",
+   "lib": ["dom", "es2015", "es2016", "es2017", "es2018", "esnext", "scripthost"]
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ],
+  "compileOnSave": false
+}

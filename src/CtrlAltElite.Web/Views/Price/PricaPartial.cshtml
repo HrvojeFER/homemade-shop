@@ -1,0 +1,58 @@
+﻿@model CtrlAltElite.Web.Models.Price.PricaBezKomentaraVM
+@using CtrlAltElite.BL.Models
+<div class="d-flex justify-content-between">
+    <h3>
+        @if (Model.ImeKorisnika == "Anonymous")
+        {
+            <a><strong>@Model.ImeKorisnika</strong></a>
+        }
+        else
+        {
+            <a asp-controller="User" asp-action="About" asp-all-route-data="new Dictionary<string, string> { { nameof(Model.UserName), Model.UserName } }"><strong>@Model.ImeKorisnika</strong></a>
+        }
+    </h3>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-link" data-get-roditelj="@Model.IdPrice" style="box-shadow:none"><p class="text-secondary" style="font-size: 1em">↑</p></button>
+        <button class="btn btn-link" data-focus="@Model.IdPrice" style="box-shadow:none"><p class="text-secondary" style="font-size: 1em">↓</p></button>
+    </div>
+</div>
+<p class="text-secondary" style="font-size: 0.7em">@Model.Vrijeme</p>
+
+<p>@Model.Sadrzaj</p>
+<div class="d-flex justify-content-center">
+    <img src="@Model.UrlSlike" class="img" style="max-height:18em; width: auto; height: auto" onerror="this.onerror = null; this.remove()" />
+</div>
+
+<!--sadržaj priče-->
+<div class="d-flex justify-content-between">
+    @if (Model.IsAdmin)
+    {
+        <p>
+            <button type="button" class="float-right btn btn-danger" onclick="location.href = '@Url.Action("UkloniPricu", "Price", new {id = Model.IdPrice})'">Ukloni</button>
+        </p>
+    }
+    <button data-get-comments="@Model.IdPrice" style="box-shadow: none" class="btn btn-link" data-toggle="collapse" data-target="#komentari@(Model.IdPrice)">
+        <p class="text-secondary mt-2" style="font-size: 0.7em">@(Model.BrojKomentara) @((Model.BrojKomentara) % 10 == 1 ? "komentar" : "komentara")</p>
+    </button>
+
+    <p>
+        <button data-toggle="modal" data-target="#Komentiraj_@Model.IdPrice" class="float-right btn btn-outline-primary ml-2"> <i class="fa fa-reply"></i> Komentiraj</button>
+    </p>
+    <div class="modal fade" id="Komentiraj_@Model.IdPrice">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Komentiraj</h4>
+                </div>
+                <div class="modal-body">
+                    <partial name="_KomentarFormPartial" model="new PricaIM { IdRoditelja = Model.IdPrice }"/>
+                </div>
+                <div class="modal-footer">
+                    <button form="form_@Model.IdPrice" type="submit" class="btn btn-primary"> Objavi</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Natrag</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

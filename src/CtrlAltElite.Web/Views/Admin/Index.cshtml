@@ -1,0 +1,398 @@
+﻿@using System.Linq
+@model CtrlAltElite.BL.Models.Admin.AdminIndexModel
+@{
+    ViewData["Title"] = "Dodavanje predmeta/ponude";
+}
+
+<div class="row">
+    <div class="col-lg-6" id="dodajPonudu">
+        <div class="jumbotron">
+            <div class="container-fluid">
+                @if (TempData["PonudaSuccess"] != null)
+                {
+                    <p class="alert alert-success" id="successMessage">@TempData["PonudaSuccess"]</p>
+                }
+                <h3>Ponuda</h3>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DodajPonuduModal">
+                    +Dodaj ponudu
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" id="predloženePriče">
+        <div class="jumbotron">
+            <div class="container-fluid">
+                <h3>Predložene priče</h3>
+                <a class="btn btn-primary" href="/Admin/PredlozenePrice">Predložene priče</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DodajPonuduModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Dodaj ponudu</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="dodajPonuduForm" asp-controller="Admin" asp-action="DodajPonudu" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="PonudaInput.PredmetId"></label>
+                        <select id="input1" class="custom-select" 
+                            asp-items="Model.Predmeti.Select(i => new SelectListItem(i.NazivPredmet, i.IdPredmet.ToString()))" 
+                            asp-for="PonudaInput.PredmetId"></select>
+                        @Html.ValidationMessageFor(IM => IM.PonudaInput.PredmetId, "", new { @class = "text-danger"})
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PonudaInput.SalvetaId"></label>
+                        <select id="input2" class="custom-select"
+                                asp-items="Model.StiloviSalveta.Select(i => new SelectListItem(i.NazivStil, i.IdStil.ToString()))"
+                                asp-for="PonudaInput.SalvetaId"></select>
+                        @Html.ValidationMessageFor(IM => IM.PonudaInput.SalvetaId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PonudaInput.StilUkrasavanjaId"></label>
+                        <select id="input3" class="custom-select"
+                                asp-items="Model.StiloviUkrasavanja.Select(i => new SelectListItem(i.NazivStil, i.IdStil.ToString()))"
+                                asp-for="PonudaInput.StilUkrasavanjaId"></select>
+                        @Html.ValidationMessageFor(IM => IM.PonudaInput.StilUkrasavanjaId, "", new { @class = "text-danger" })
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" form="dodajPonuduForm" class="btn btn-outline-primary">Dodaj ponudu</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Natrag</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DodajPredmetModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Dodaj predmet</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="dodajPredmetForm" asp-controller="Admin" asp-action="DodajPredmet" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.NazivPredmeta"></label>
+                        <input asp-for="PredmetInput.NazivPredmeta" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PonudaInput.StilUkrasavanjaId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.SlikaURL"></label>
+                        <input asp-for="PredmetInput.SlikaURL" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PredmetInput.SlikaURL, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.BaznaCijena"></label>
+                        <input asp-for="PredmetInput.BaznaCijena" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PredmetInput.BaznaCijena, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.OpisPredmeta"></label>
+                        <input asp-for="PredmetInput.OpisPredmeta" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PredmetInput.OpisPredmeta, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.Visina"></label>
+                        <input asp-for="PredmetInput.Visina" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PredmetInput.Visina, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.Širina"></label>
+                        <input asp-for="PredmetInput.Širina" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PredmetInput.Širina, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PredmetInput.Dužina"></label>
+                        <input asp-for="PredmetInput.Dužina" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.PredmetInput.Dužina, "", new { @class = "text-danger" })
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" form="dodajPredmetForm" class="btn btn-outline-primary">Dodaj predmet</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Natrag</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DodajStilSalvetaModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Dodaj stil salvete</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="dodajStilSalveteForm" asp-controller="Admin" asp-action="DodajStilSalvete" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="StilInput.NazivStila"></label>
+                        <input asp-for="StilInput.NazivStila" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.StilInput.NazivStila, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StilInput.OpisStila"></label>
+                        <input asp-for="StilInput.OpisStila" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.StilInput.OpisStila, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StilInput.FaktorMnozenja"></label>
+                        <input asp-for="StilInput.FaktorMnozenja" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.StilInput.FaktorMnozenja, "", new { @class = "text-danger" })
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" form="dodajStilSalveteForm" class="btn btn-outline-primary">Dodaj stil salvete</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Natrag</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DodajStilUkrasavanjaModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Dodaj stil ukrašavanja</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="dodajStilUkrasavanjaForm" asp-controller="Admin" asp-action="DodajStilUkrasavanja" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="StilInput.NazivStila"></label>
+                        <input asp-for="StilInput.NazivStila" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.StilInput.NazivStila, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StilInput.OpisStila"></label>
+                        <input asp-for="StilInput.OpisStila" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.StilInput.OpisStila, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StilInput.FaktorMnozenja"></label>
+                        <input asp-for="StilInput.FaktorMnozenja" class="form-control" />
+                        @Html.ValidationMessageFor(IM => IM.StilInput.FaktorMnozenja, "", new { @class = "text-danger" })
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" form="dodajStilUkrasavanjaForm" class="btn btn-outline-primary">+Dodaj stil ukrašavanja</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Natrag</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron container-fluid" id="kontejnerTablica">
+        <div class="d-flex justify-content-between">
+            <h3>Popis korisnika</h3>
+            <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#prikaziKorisnike">Prikaži popis</button>
+        </div>
+        <br />
+        <div id="prikaziKorisnike" class="collapse">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Korisničko ime</th>
+                        <th>Email</th>
+                        <th>Zaporka</th>
+                        <th>Adresa</th>
+                        <th>Uloga</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-striped">
+                    @foreach (var korisnik in @Model.Korisnik)
+                    {
+                        if (korisnik.ImeKorisnik == "Anonymous")
+                        {
+                            continue;
+                        }
+                        <tr>
+
+                            <td>@korisnik.ImeKorisnik</td>
+                            <td>@korisnik.PrezimeKorisnik</td>
+                            <td>@korisnik.UserName</td>
+                            <td>@korisnik.EmailKorisnik</td>
+                            <td>@korisnik.PwdKorisnik</td>
+                            <td>@korisnik.AdresaKorisnik</td>
+                            <td>@korisnik.Rola</td>
+                            <td>
+                                <a class="btn btn-secondary" 
+                                        asp-controller="User" 
+                                        asp-action="About" 
+                                        asp-all-route-data="new Dictionary<string, string>()
+                                            {
+                                                { nameof(korisnik.UserName), korisnik.IdKorisnik}
+                                            }">
+                                    Info
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron container-fluid" id="kontejnerTablica">
+        @if (TempData["Success"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
+        <div class="d-flex justify-content-between">
+            <h3>Popis predmeta</h3>
+            <div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DodajPredmetModal">+Dodaj predmet</button>
+                <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#prikaziPredmete">Prikaži popis</button>
+            </div>
+        </div>
+        <br/>
+        <div id="prikaziPredmete" class="collapse">
+            <table class="table table-hover" id="tablicaPredmeta">
+                <thead>
+                <tr>
+                    <th>Slika</th>
+                    <th>Naziv</th>
+                    <th>Cijena</th>
+                    <th>Opis</th>
+                    <th>Dimenzija</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var predmet in @Model.Predmeti)
+                {
+                    <tr>
+                        <td><img src="@predmet.SlikaUrl" style="width: 128px" onerror="this.onerror = null; this.src='../images/Default.png'"/></td>
+                        <td>@predmet.NazivPredmet</td>
+                        <td>@predmet.BaznaCijena kn</td>
+                        <td>@predmet.Opis</td>
+                        <td>@predmet.Sirina x @predmet.Duzina x @predmet.Visina cm</td>
+                        <td><button type="button" class="btn btn-danger" onclick="location.href = 
+                                    '@Url.Action("UkloniPredmet", "Admin", new {id = predmet.IdPredmet})'">Ukloni</button></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron container-fluid" id="kontejnerTablica">
+        @if (TempData["StilUkrasavanjaSuccess"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
+            <div class="d-flex justify-content-between">
+                <h3>Popis stilova ukrašavanja</h3>
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DodajStilUkrasavanjaModal">
+                        +Dodaj stil ukrašavanja
+                    </button>
+                    <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#prikaziStiloveUkrasavanja">
+                        Prikaži popis
+                    </button>
+                </div>
+            </div>
+        <br/>
+        <div id="prikaziStiloveUkrasavanja" class="collapse">
+            <table class="table table-hover" id="tablicaStilovaUkrasavanja">
+                <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Faktor množenja</th>
+                    <th>Opis</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var predmet in @Model.StiloviUkrasavanja)
+                {
+                    <tr>
+                        <td>@predmet.NazivStil</td>
+                        <td>@predmet.FaktorMnozenja</td>
+                        <td>@predmet.OpisStila</td>
+                        <td><button type="button" class="btn btn-danger" onclick="location.href = 
+                                    '@Url.Action("UkloniStilUkrasavanja", "Admin", new {id = predmet.IdStil})'">Ukloni</button></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="jumbotron container-fluid" id="kontejnerTablica">
+        @if (TempData["StilSalvetaSuccess"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
+            <div class="d-flex justify-content-between">
+                <h3>Popis stilova salveta</h3>
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DodajStilSalvetaModal">
+                        +Dodaj stil salvete
+                    </button>
+                    <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#prikaziStiloveSalveta">
+                        Prikaži popis
+                    </button>
+                </div>
+            </div>
+        <br/>
+        <div id="prikaziStiloveSalveta" class="collapse">
+            <table class="table table-hover" id="tablicaStilovaUkrasavanja">
+                <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Faktor množenja</th>
+                    <th>Opis</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var predmet in @Model.StiloviSalveta)
+                {
+                    <tr>
+                        <td>@predmet.NazivStil</td>
+                        <td>@predmet.FaktorMnozenja</td>
+                        <td>@predmet.OpisStila</td>
+                        <td><button type="button" class="btn btn-danger" onclick="location.href = 
+                                    '@Url.Action("UkloniStilSalveta", "Admin", new {id = predmet.IdStil})'">Ukloni</button></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

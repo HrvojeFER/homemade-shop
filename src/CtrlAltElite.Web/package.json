@@ -1,0 +1,38 @@
+{
+  "name": "ctrlaltelite.web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "watch": "webpack -w --mode=development",
+    "build": "webpack --mode=development"
+  },
+  "author": "",
+  "license": "ISC",
+  "sideEffects": false,
+  "dependencies": {
+    "bootstrap": "4.1.3",
+    "font-awesome": "^4.7.0",
+    "jquery": "3.3.1",
+    "jquery-validation": "1.18.0",
+    "jquery-validation-unobtrusive": "3.2.11",
+    "popper.js": "1.14.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "3.3.14",
+    "@types/webpack": "4.4.16",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "3.0.2",
+    "imports-loader": "0.8.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "5.2.1",
+    "typescript": "3.1.2",
+    "webpack": "4.20.2",
+    "webpack-cli": "3.1.2",
+    "webpack-fix-default-import-plugin": "1.0.3",
+    "particles.js": "^2.0.0"
+  }
+}

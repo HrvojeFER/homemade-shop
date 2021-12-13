@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject CtrlAltElite.BL.IRepository repository
+@inject CtrlAltElite.BL.IMapper mapper
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var id = UserManager.GetUserId(User);
+    var user = repository.GetKorisnik(id);
+        
+    <form class="form-inline navbar-right" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl=
+        "@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm">
+        <ul class="navbar-nav">
+            @if (user.IdRole >= (int)CtrlAltElite.BL.Models.RoleModel.Admin)
+            {
+                <li class="nav-item mr-auto">
+                    <a class="nav-link" asp-controller="Admin" asp-action="Index" title="Admin">Admin postavke</a>
+                </li>
+            }
+            @if (user.IdRole == (int)CtrlAltElite.BL.Models.RoleModel.Admin ||
+                 user.IdRole == (int)CtrlAltElite.BL.Models.RoleModel.RegistriraniKorisnik)
+            {
+                <li class="nav-item mr-auto">
+                    <a class="nav-link" asp-controller="Narudzbe" asp-action="Index" title="Narudžbe">Narudžbe</a>
+                </li>
+            }
+            <li class="nav-item mr-auto">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Korisničke postavke">
+                    Bok, @UserManager.GetUserName(User)!
+                </a>
+            </li>
+            <li class="nav-item mr-auto">
+                <button type="submit" class="btn btn-light nav-link" style="color: white; box-shadow: none; 
+                    background-color:transparent; border:none" >
+                    <b>
+                        Odjava
+                    </b>
+                </button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="navbar-nav navbar-right">
+        <li class="nav-item mr-auto"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registiraj se</a></li>
+        <li class="nav-item mr-auto"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Prijavi se</a></li>
+    </ul>
+}

@@ -1,0 +1,91 @@
+﻿@model CtrlAltElite.Web.Models.CijenaIM
+@inject CtrlAltElite.BL.IRepository repository
+@{
+    CtrlAltElite.Entities.Models.Transakcija trans;
+
+    switch (ViewData["status"])
+    {
+        case "Ponuđeno":
+            <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#Cijena">
+                Odredi cijenu...
+            </button>
+
+            <div id="Cijena" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Određivanje cijene</h5>
+                        </div>
+
+                        <div class="modal-body">
+                            <form asp-controller="Narudzbe" asp-action="UpdateStatusNarudzbaToPrihvaceno" method="post" id="cijena">
+                                <div class="form-row">
+                                    <label asp-for="Cijena"></label>
+                                    <input asp-for="Cijena" class="form-control">
+                                    @Html.ValidationMessageFor(tran => tran.Cijena, "", new { @class = "text-danger" })
+                                </div>
+                                <input asp-for="IdNarudzba" class="form-control"
+                                       type="hidden" value="@ViewData["idNarudzba"]" />
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" form="cijena">
+                                Odredi cijenu
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-danger float-right"
+                    onclick="location.href='@Url.Action("UpdateStatusNarudzbaToOdbijeno", "Narudzbe",
+                                           new { id = (int)ViewData["idNarudzba"] })'">
+                Odbij Narudžbu
+            </button>
+            break;
+
+        case "Odobreno":
+            break;
+
+        case "Kupljeno":
+            trans = repository.GetTransakcijaByNarudzba((int)ViewData["idNarudzba"]);
+
+            <partial name="_TransakcijaPartial" view-data="@{
+                new ViewDataDictionary(ViewData)
+                {
+                    {"datum", trans.Datum.ToString() },
+                    {"ime", trans.ImeKupca },
+                    {"prezime", trans.PrezimeKupca },
+                    {"cijena", trans.KonacnaCijena },
+                    {"adresa", trans.AdresaKupca }
+                }
+                } " />
+
+            <button type="button" class="btn btn-success float-right"
+                    onclick="location.href='@Url.Action("UpdateStatusNarudzbaToIsporuceno", "Narudzbe",
+                                           new { id = (int)ViewData["idNarudzba"] })'">
+                Isporuči Narudžbu
+            </button>
+            break;
+
+        case "Odbijeno":
+            break;
+
+        default:
+            trans = repository.GetTransakcijaByNarudzba((int)ViewData["idNarudzba"]);
+            
+            <partial name="_TransakcijaPartial" view-data="@{
+                new ViewDataDictionary(ViewData)
+                {
+                    {"datum", trans.Datum.ToString() },
+                    {"ime", trans.ImeKupca },
+                    {"prezime", trans.PrezimeKupca },
+                    {"cijena", trans.KonacnaCijena },
+                    {"adresa", trans.AdresaKupca }
+                }
+                } " />
+
+            break;
+    }
+}

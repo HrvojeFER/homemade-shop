@@ -1,0 +1,74 @@
+﻿@model CtrlAltElite.Web.Models.PricaAdminVM
+@using CtrlAltElite.BL.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject CtrlAltElite.BL.IRepository repository
+@{
+    var userName = UserManager.GetUserId(User);
+    var user = repository.GetKorisnik(userName);
+}
+<div class="row">
+    <div class="col-md-2">
+        <!--slika predmeta na koji se objavljuje priča-->
+        <img src="@Model.UrlSlike" class="img img-rounded img-fluid" onerror="this.onerror = null; this.src='../images/Default.png'" />
+        <p class="text-secondary text-center">@Model.Vrijeme</p>
+    </div>
+    <div class="col-md-10">
+        <h3>
+            @if (Model.ImeKorisnika == "Anonymous")
+            {
+                <a class="float-left"><strong>@Model.ImeKorisnika</strong></a>
+            }
+            else
+            {
+                <a class="float-left" asp-controller="User" asp-action="About" asp-all-route-data="
+                    new Dictionary<string, string>
+                    {
+                        { nameof(Model.UserName), Model.UserName }
+                    }">
+                    <strong>
+                        @Model.ImeKorisnika
+                    </strong>
+                </a>
+            }
+
+        </h3>
+        <div class="clearfix"></div>
+        <!--sadržaj priče-->
+        <p>@Model.Sadrzaj</p>
+       @if (Model.MozeSeKomentirati)
+       {
+            <p>
+                
+                <button data-toggle="modal" data-target="#Komentiraj_@Model.IdPrice" class="float-right btn btn-outline-primary ml-2"> 
+                    <i class="fa fa-reply"></i> Komentiraj</button>
+            </p>
+            <div class="modal fade" id="Komentiraj_@Model.IdPrice">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Komentiraj</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <partial name="_KomentarFormPartial" model="@{ new PricaIM { IdRoditelja = Model.IdPrice } } " />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button form="form_@Model.IdPrice" type="submit" class="btn btn-primary"> Objavi</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Natrag</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+@if (user!= null && user.IdRole == (int)RoleModel.Admin)
+{
+            <p>
+                <button type="button" class="float-right btn btn-danger" onclick="location.href = 
+                        '@Url.Action("UkloniPricu", "Home", new {id = Model.IdPrice})'">Ukloni</button>
+            </p>
+        }
+    </div>
+</div>

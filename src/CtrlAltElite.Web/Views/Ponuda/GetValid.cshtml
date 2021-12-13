@@ -1,0 +1,6 @@
+﻿@model (List<(int, string)>, string)
+
+<select name="IdStil" data-moguce-ukrasavanje="@(Model.Item2)" class="custom-select" 
+    asp-items="Model.Item1.Select(i=>new SelectListItem(i.Item2, i.Item1.ToString()))">
+    <option selected="selected" value="-1" disabled>Odaberi stil ukrašavanja!</option>
+</select>

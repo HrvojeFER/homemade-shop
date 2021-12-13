@@ -1,0 +1,44 @@
+﻿@model CtrlAltElite.Web.Models.Narudzba.NarudzbeVM
+
+<div class="container container-fluid" style="clear: both">
+    @foreach (var nar in Model.Narudzbe)
+    {
+        <div class="card gedf-card mb-3">
+            <partial name="_NarudzbaPartial" model="nar" />
+            <div class="card-footer">
+                <p class="card-text">
+                    Status: @nar.Status
+                </p>
+                @{
+                    if (Model.IsRegisterd)
+                    {
+                        <partial name="_UserPartial" view-data="@{
+                                new ViewDataDictionary(ViewData)
+                                {
+                                    {"status", nar.Status },
+                                    {"idNarudzba", nar.IdNarudzba },
+                                    {"cijena", nar.KonacnaCijena }
+                                }} " model="new CtrlAltElite.Web.Models.TransakcijaIM()" />
+                    }
+                    else if (Model.IsAdmin)
+                    {
+                        <partial name="_AdminPartial" view-data="@{
+                                new ViewDataDictionary(ViewData)
+                                {
+                                    {"status", nar.Status },
+                                    {"idNarudzba", nar.IdNarudzba }
+                                }} " model="new CtrlAltElite.Web.Models.CijenaIM()" />
+                    }
+
+                }
+            </div>
+        </div>
+    }
+    @if (Model.Narudzbe.Count == 0)
+    {
+        <p style="padding-bottom: 20px">
+            Nemate narudžbi.
+        </p>
+    }
+</div>
+

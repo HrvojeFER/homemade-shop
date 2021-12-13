@@ -1,0 +1,42 @@
+﻿
+@model List<CtrlAltElite.Web.Models.PricaAdminVM>
+@{
+    ViewData["Title"] = "PredlozenePrice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <br />
+    <h2 class="text-md-left">Predložene priče</h2>
+    <br />
+    @foreach (var prica in Model)
+    {
+
+        <div class="card my-3">
+            <div class="card-body">
+                <partial name="~/Views/Home/PricaPV.cshtml" model="prica" />
+                <a class="btn btn-primary" asp-controller="Admin" asp-action="PrihvatiPricu" 
+                    asp-all-route-data="(new Dictionary<string, string>()
+                        {
+                            { nameof(prica.IdPrice), prica.IdPrice.ToString() }
+                        })">
+                    Objavi
+                </a>
+                <span><a class="btn btn-danger" asp-controller="Admin" asp-action="OdbijPricu" 
+                        asp-all-route-data="(new Dictionary<string, string>()
+                            {
+                                { nameof(prica.IdPrice), prica.IdPrice.ToString() }
+                            })">
+                        Odbij
+                       </a>
+                </span>
+            </div>
+        </div>
+    }
+    @if (Model.Count == 0)
+    {
+        <p>
+            Nemate predloženih priča.
+        </p>
+    }
+</div>

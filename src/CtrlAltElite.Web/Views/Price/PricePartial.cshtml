@@ -1,0 +1,17 @@
+﻿@model CtrlAltElite.Web.Models.Price.IndexVM
+
+@foreach (var prica in Model.Price)
+{
+<div data-comment-root="@prica.IdPrice">
+    <div class="row mx-1" style="overflow: hidden; padding-left: 0 !important">
+        <div class="jumbotron container-fluid comment">
+            <partial name="PricaPartial" model="prica" />
+
+            <div style="overflow: hidden" class="collapse" data-komentari-za="@prica.IdPrice" id="komentari@(prica.IdPrice)">
+                <h2>Pričekajte...</h2>
+            </div>
+        </div>
+    </div>
+</div>
+}
+

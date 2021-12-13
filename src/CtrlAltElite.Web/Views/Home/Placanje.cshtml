@@ -1,0 +1,86 @@
+﻿@model PlacanjeIM
+@{
+    ViewData["Title"] = "Plaćanje";
+}
+
+<form asp-controller="Home" asp-action="Kupi">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-md-10 ml-auto mr-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md">
+                                <h4>Plaćanje</h4>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md">
+                                <p>
+                                    Cijena: @Model.Cijena HRK
+                                </p>
+                                <div>
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <label asp-for="ImePrimatelja" class="col-md-12 col-form-label"></label>
+                                            <input asp-for="ImePrimatelja" class="form-control">
+                                            @Html.ValidationMessageFor(p => p.ImePrimatelja, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-row">
+                                            <label asp-for="PrezimePrimatelja" class="col-md-12 col-form-label"></label>
+                                            <input asp-for="PrezimePrimatelja" class="form-control">
+                                            @Html.ValidationMessageFor(p => p.PrezimePrimatelja, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-row">
+                                            <label asp-for="AdresaPrimatelja" class="col-md-12 col-form-label"></label>
+                                            <input asp-for="AdresaPrimatelja" class="form-control">
+                                            @Html.ValidationMessageFor(p => p.AdresaPrimatelja, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <label asp-for="ImeKupca" class="col-md-12 col-form-label"></label>
+                                            <input asp-for="ImeKupca" class="form-control">
+                                            @Html.ValidationMessageFor(p => p.ImeKupca, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-row">
+                                            <label asp-for="PrezimeKupca" class="col-md-12 col-form-label"></label>
+                                            <input asp-for="PrezimeKupca" class="form-control">
+                                            @Html.ValidationMessageFor(p => p.PrezimeKupca, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-row">
+                                            <label asp-for="AdresaKupca" class="col-md-12 col-form-label"></label>
+                                            <input asp-for="AdresaKupca" class="form-control">
+                                            @Html.ValidationMessageFor(p => p.AdresaKupca, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <input asp-for="Cijena" type="hidden" />
+
+                                    <input asp-for="IdSalveta" type="hidden" />
+                                    <input asp-for="PredmetId" type="hidden" />
+                                    <input asp-for="IdStil" type="hidden" />
+
+                                    <div class="form-group row" style="float:right">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-primary">Plati</button>
+                                            <a class="btn btn-primary" href="/">Odustani</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+

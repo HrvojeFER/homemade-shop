@@ -1,0 +1,35 @@
+﻿<button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#Transakcija_@ViewData["id"]">
+    Transakcija...
+</button>
+<div id="Transakcija_@ViewData["id"]" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Transakcija</h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-muted h7 mb-2">
+                    <i class="fa fa-clock-o"></i>Datum transakcije: @ViewData["datum"]
+                </div>
+                <ul class="list-group list-group-flush mb-1">
+                    <li class="list-group-item">
+                        <p class="card-text">
+                            Cijena: @ViewData["cijena"] HRK
+                        </p>
+                    </li>
+                    <li class="list-group-item">
+                        <p class="card-text">
+                            Kupac: @ViewData["ime"] @ViewData["prezime"]
+                        </p>
+                        <p class="card-text">
+                            Adresa kupca: @ViewData["adresa"]
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Natrag</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model List<CtrlAltElite.Web.Models.PricaAdminVM>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject CtrlAltElite.BL.IRepository repository
+@inject CtrlAltElite.BL.IMapper mapper
+@{
+    var userId = UserManager.GetUserId(User);
+    var user = repository.GetKorisnik(userId);
+}
+
+@{
+    ViewData["Title"] = "Price";
+}
+
+<div class="container">
+    <br />
+    <div class="d-flex">
+        <h2 class="text-md-left">Priče i recenzije o proizvodima    </h2>
+        &nbsp;&nbsp;&nbsp;&nbsp
+        <div>
+            @{
+                if (user != null)
+                {
+                    if (user.IdRole == (int)CtrlAltElite.BL.Models.RoleModel.RegistriraniKorisnik)
+                    {
+                        <a class="btn btn-primary float-right" href="/Home/PredlaganjePrice">Predloži priču</a>
+                    }
+                    else if (user.IdRole == (int)CtrlAltElite.BL.Models.RoleModel.Admin)
+                    {
+                        <a class="btn btn-primary float-right" href="/Home/PredlaganjePrice">Dodaj priču</a>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <br />
+    @foreach (var prica in Model)
+    {
+
+        <div class="card my-3">
+            <div class="card-body">
+                <partial name="PricaPV" model="prica" />
+                @if (prica.MozeSeKomentirati)
+                {
+                    foreach (var komentar in prica.Komentari)
+                    {
+                        <div class="card card-inner">
+                            <div class="card-body">
+                                <partial name="PricaPV" model="komentar" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>

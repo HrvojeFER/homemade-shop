@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+@{
+    var model = ((Dictionary<string, string>, bool, string))Model;
+}
+
+
+<div class="container">
+    @foreach (var prop in model.Item1)
+    {
+        <div class="card my-3">
+            <div class="card-body my-2">
+                <div class="d-flex justify-content-between">
+                    <label>@prop.Key</label>
+                    <label>@prop.Value</label>
+                </div>
+            </div>
+        </div>
+    }
+    @if (model.Item2)
+    {
+        <form asp-controller="User" asp-action="ChangeStatus" method="post">
+            <div class="card my-3">
+                <div class="card-body my-2">
+                    <div class="d-flex justify-content-between">
+                        <label>Promijeni vrstu korisnika</label>
+                        <select asp-items="@(Html.GetEnumSelectList<CtrlAltElite.BL.Models.RoleModel>())" name="Rola" 
+                            class="custom-select mx-5"></select>
+                        <input name="idKorisnik" value="@(model.Item3)" type="hidden" />
+                        <button type="submit" class="btn btn-primary">Promijeni</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+</div>

@@ -1,0 +1,94 @@
+﻿@model CtrlAltElite.Web.Models.TransakcijaIM
+
+@inject CtrlAltElite.BL.IRepository repository
+
+@{
+    switch (ViewData["status"])
+    {
+        case "Ponuđeno":
+            <button type="button" class="btn btn-danger float-right"
+                    onclick="location.href='@Url.Action("RemoveNarudzba", "Narudzbe",
+                        new { id = (int)ViewData["idNarudzba"] })'">
+                Ukloni Narudžbu
+            </button>
+            break;
+
+        case "Odobreno":
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dodajTransakciju">
+                Plaćanje...
+            </button>
+
+            <div id="dodajTransakciju" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Plaćanje</h5>
+                        </div>
+
+                        <div class="modal-body">
+                            <p class="card-text">
+                                Cijena: @ViewData["cijena"] HRK
+                            </p>
+                            <form asp-controller="Narudzbe" asp-action="AddTransakcija" method="post" id="transakcija">
+                                <div class="container">
+                                    <div class="form-group">
+                                        <div class="form-row mb-1">
+                                            <label asp-for="ImeKupca"></label>
+                                            <input asp-for="ImeKupca" class="form-control">
+                                            @Html.ValidationMessageFor(tran => tran.ImeKupca, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-row mb-1">
+                                            <label asp-for="PrezimeKupca"></label>
+                                            <input asp-for="PrezimeKupca" class="form-control">
+                                            @Html.ValidationMessageFor(tran => tran.PrezimeKupca, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-row mb-1">
+                                            <label asp-for="AdresaKupca"></label>
+                                            <input asp-for="AdresaKupca" class="form-control">
+                                            @Html.ValidationMessageFor(tran => tran.AdresaKupca, "", new { @class = "text-danger" })
+                                        </div>
+                                        <input asp-for="IdNarudzba" class="form-control" 
+                                            type="hidden" value="@ViewData["idNarudzba"]"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" form="transakcija">
+                                Plati
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-danger float-right"
+                    onclick="location.href='@Url.Action("RemoveNarudzba", "Narudzbe",
+                        new { id = (int)ViewData["idNarudzba"] })'">
+                Ukloni Narudžbu
+            </button>
+            break;
+
+        case "Odbijeno":
+            break;
+
+        default:
+            var trans = repository.GetTransakcijaByNarudzba((int)ViewData["idNarudzba"]);
+            
+            <partial name="_TransakcijaPartial" view-data="@{
+            new ViewDataDictionary(ViewData)
+            {
+                {"datum", trans.Datum.ToString()},
+                {"ime", trans.ImeKupca},
+                {"prezime", trans.PrezimeKupca},
+                {"adresa", trans.AdresaKupca},
+                {"id",trans.IdTransakcija }
+
+            };
+                } " />
+
+        break;
+    }
+}

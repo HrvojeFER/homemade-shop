@@ -1,0 +1,107 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<div class="row">
+    <div class="col-md-10">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Vidljivost</th>
+                    </tr>
+                </thead>
+
+                <tbody class="tbody">
+                    <tr>
+                        <td>
+                            <label asp-for="Username"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Username" class="form-control" disabled />
+                        </td>
+                        <td>
+                            <input asp-for="Input.UsernameVisibility" class="ml-4" disabled checked="checked" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="Input.Name"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Input.Name" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="Input.NameVisibility" class="ml-4" />
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <label asp-for="Input.Surname"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Input.Surname" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="Input.SurnameVisibility" class="ml-4" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="Input.Address"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Input.Address" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="Input.AddressVisibility" class="ml-4" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="Input.Email"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="Input.EmailVisibility" class="ml-4" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="Input.OldPassword"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Input.OldPassword" class="form-control" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label asp-for="Input.NewPassword"></label>
+                        </td>
+                        <td>
+                            <input asp-for="Input.NewPassword" class="form-control" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Spremi</button>
+        </form>
+    </div>
+
+</div>

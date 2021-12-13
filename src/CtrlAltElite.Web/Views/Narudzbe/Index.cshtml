@@ -1,0 +1,21 @@
+﻿@model CtrlAltElite.Web.Models.Narudzba.NarudzbeVM
+
+@{
+    ViewData["Title"] = "Narudžbe";
+}
+@using CtrlAltElite.Web.Models.Narudzba;
+<h2 class="text-md-left">Narudžbe</h2>
+<div class="btn-group-toggle float-right pb-1" role="group">
+    <button class="btn active" data-filter-narudzbe="-1" >
+        Sve
+    </button>
+    @foreach (var value in (List<(int,string)>)ViewData["allStatus"])
+    {
+        <button class="btn pl-1" data-filter-narudzbe="@value.Item1">
+            @value.Item2
+        </button>
+    }
+</div>
+<div id="narudzbe">
+    <partial name="NarudzbePartial" />
+</div>

@@ -1,0 +1,22 @@
+﻿@model CtrlAltElite.Web.Models.Price.IndexVM
+
+
+<br />
+<div class="d-flex justify-content-between">
+    <h2 class="text-md-left">Priče i recenzije o proizvodima</h2>
+    <div>
+        @if (Model.IsAdmin)
+        {
+            <a class="btn btn-primary float-right" href="/Price/PredloziPricu">Dodaj priču</a>
+        }
+        else if (Model.IsRegistered)
+        {
+            <a class="btn btn-primary float-right" href="/Price/PredloziPricu">Predloži priču</a>
+
+        }
+    </div>
+</div>
+<br />
+<div id="root">
+    <partial name="PricePartial" />
+</div>
